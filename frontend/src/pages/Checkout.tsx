@@ -95,10 +95,15 @@ export default function CheckoutPage() {
       const res = await sendOTP(customerPhone);
       setOtpSent(true);
       setOtpTimer(300);
-      // Demo: extract OTP from message and show in UI
-      const match = res.message.match(/\d{6}/);
-      if (match) {
-        setDemoOtp(match[0]);
+      // Demo: use otp_code field from backend (most reliable)
+      if (res.otp_code) {
+        setDemoOtp(res.otp_code);
+      } else {
+        // Fallback: extract LAST 6-digit number from message
+        const matches = res.message.match(/\d{6}/g);
+        if (matches && matches.length > 0) {
+          setDemoOtp(matches[matches.length - 1]);
+        }
       }
     } catch {
       setOtpError("Failed to send OTP. Please try again.");

@@ -14,6 +14,7 @@ class SendOTPRequest(BaseModel):
 
 class SendOTPResponse(BaseModel):
     message: str
+    otp_code: str | None = None  # Demo only: the actual OTP code
     expires_in_seconds: int = 300
 
 

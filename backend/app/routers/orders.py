@@ -104,6 +104,7 @@ def send_otp(payload: SendOTPRequest, db: Session = Depends(get_db)):
 
     return SendOTPResponse(
         message=f"OTP sent to {phone}. (Demo: your OTP is {code})",
+        otp_code=code,
         expires_in_seconds=300,
     )
 

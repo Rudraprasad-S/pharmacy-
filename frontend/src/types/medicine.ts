@@ -93,8 +93,8 @@ export interface CheckoutRequest {
 
 export interface SendOTPResponse {
   message: string;
+  otp_code: string | null; // Demo only — the actual OTP code
   expires_in_seconds: number;
-  otp_code?: string; // Demo only
 }
 
 export interface VerifyOTPResponse {
