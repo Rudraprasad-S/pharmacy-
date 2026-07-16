@@ -18,9 +18,13 @@ export default function LoginPage() {
       await login(email, password);
       navigate("/");
     } catch (err: any) {
-      setError(
-        err?.response?.data?.detail || "Login failed. Check your credentials.",
-      );
+      let msg = "Login failed. Check your credentials.";
+      if (err?.response?.data?.detail) {
+        msg = err.response.data.detail;
+      } else if (err?.message) {
+        msg = err.message;
+      }
+      setError(msg);
     } finally {
       setLoading(false);
     }

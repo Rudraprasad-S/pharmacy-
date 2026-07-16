@@ -14,6 +14,10 @@ export default function RegisterPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
+    if (!name.trim()) {
+      setError("Please enter your full name.");
+      return;
+    }
     if (password.length < 6) {
       setError("Password must be at least 6 characters.");
       return;
@@ -23,9 +27,13 @@ export default function RegisterPage() {
       await register(email, name, password);
       navigate("/");
     } catch (err: any) {
-      setError(
-        err?.response?.data?.detail || "Registration failed. Please try again.",
-      );
+      let msg = "Registration failed. Please try again.";
+      if (err?.response?.data?.detail) {
+        msg = err.response.data.detail;
+      } else if (err?.message) {
+        msg = err.message;
+      }
+      setError(msg);
     } finally {
       setLoading(false);
     }

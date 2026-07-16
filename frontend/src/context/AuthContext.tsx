@@ -32,34 +32,24 @@ const TOKEN_KEY = "riyaz_token";
 const USER_KEY = "riyaz_user";
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | null>(() => {
-    try {
-      const raw = localStorage.getItem(USER_KEY);
-      return raw ? JSON.parse(raw) : null;
-    } catch {
-      return null;
-    }
-  });
-  const [token, setToken] = useState<string | null>(() =>
-    localStorage.getItem(TOKEN_KEY),
-  );
+  const [user, setUser] = useState<User | null>(null);
+  const [token, setToken] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
-  // Validate token on mount
+  // Init from localStorage and validate token
   useEffect(() => {
-    if (token) {
+    const storedToken = localStorage.getItem(TOKEN_KEY);
+    if (storedToken) {
+      setToken(storedToken);
       api
         .get("/api/auth/me", {
-          headers: { Authorization: `Bearer ${token}` },
+          headers: { Authorization: `Bearer ${storedToken}` },
         })
         .then(({ data }) => {
           setUser(data);
           localStorage.setItem(USER_KEY, JSON.stringify(data));
         })
         .catch(() => {
-          // Token expired/invalid
-          setToken(null);
-          setUser(null);
           localStorage.removeItem(TOKEN_KEY);
           localStorage.removeItem(USER_KEY);
         })
