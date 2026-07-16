@@ -16,3 +16,6 @@ build/
 # OS/editor
 .DS_Store
 .vscode/
+
+# Database files
+*.db

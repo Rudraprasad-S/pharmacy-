@@ -11,6 +11,7 @@ from app.database import SessionLocal, engine, Base
 from app.models.category import Category
 from app.models.medicine import Medicine
 from app.models.brand import Brand, MedicineBrand
+from app.models.order import Order, OTP
 
 
 def seed():

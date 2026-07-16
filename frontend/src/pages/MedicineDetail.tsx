@@ -149,15 +149,33 @@ export default function MedicineDetail() {
               </div>
             </div>
           )}
+{/* No brands */}
+{medicine.brands.length === 0 && (
+  <p className="text-sm text-gray-400 italic">
+    No specific brands listed for this medicine.
+  </p>
+)}
 
-          {/* No brands */}
-          {medicine.brands.length === 0 && (
-            <p className="text-sm text-gray-400 italic">
-              No specific brands listed for this medicine.
-            </p>
-          )}
-        </div>
-      </main>
-    </div>
-  );
+{/* Buy Now button */}
+<div className="mt-6 pt-4 border-t">
+  {medicine.in_stock ? (
+    <Link
+      to={`/checkout/${medicine.id}`}
+      className="block w-full bg-blue-600 text-white text-center py-3 rounded-xl font-semibold hover:bg-blue-700 transition"
+    >
+      🛒 Buy Now — ₹{Number(medicine.price).toFixed(2)}
+    </Link>
+  ) : (
+    <button
+      disabled
+      className="block w-full bg-gray-300 text-gray-500 text-center py-3 rounded-xl font-semibold cursor-not-allowed"
+    >
+      Currently Out of Stock
+    </button>
+  )}
+</div>
+</div>
+</main>
+</div>
+);
 }
