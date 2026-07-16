@@ -2,13 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Dark mode base */
+/* Starsup base theme */
 html.dark {
-  background-color: #030712;
+  background-color: #0f1a3a;
   color-scheme: dark;
 }
 html.dark body {
-  background-color: #030712;
+  background-color: #0f1a3a;
   color: #f9fafb;
 }
 html {
@@ -16,22 +16,22 @@ html {
   transition: background-color 0.2s ease;
 }
 body {
-  background-color: #f9fafb;
+  background-color: #f8fafd;
   transition: background-color 0.2s ease, color 0.2s ease;
+  font-family: "Inter", "Poppins", system-ui, sans-serif;
 }
 
-/* Fix browser autofill in dark mode — white text on gray bg */
 html.dark input:-webkit-autofill,
 html.dark input:-webkit-autofill:hover,
 html.dark input:-webkit-autofill:focus {
-  -webkit-box-shadow: 0 0 0 30px #1f2937 inset !important;
+  -webkit-box-shadow: 0 0 0 30px #1e293b inset !important;
   -webkit-text-fill-color: #f1f5f9 !important;
   caret-color: #f1f5f9;
 }
 
 @media (prefers-color-scheme: dark) {
   html:not(.light) body {
-    background-color: #030712;
+    background-color: #0f1a3a;
     color: #f9fafb;
   }
 }
