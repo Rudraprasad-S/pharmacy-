@@ -11,22 +11,24 @@ export default function MedicineCard({ medicine }: Props) {
   const liked = isWishlisted(medicine.id);
 
   return (
-    <div className="rounded-2xl border border-gray-100 dark:border-navy-800 bg-white dark:bg-navy-900 shadow-sm transition hover:shadow-lg hover:border-navy-200 dark:hover:border-navy-700">
-      <Link to={`/medicine/${medicine.id}`} className="block p-5 pb-2">
+    <div className="rounded-2xl border border-gray-200 dark:border-navy-700 bg-white dark:bg-navy-900 shadow-sm hover:shadow-lg hover:border-navy-300 dark:hover:border-navy-600 transition-all duration-200">
+      <Link to={`/medicine/${medicine.id}`} className="block p-5 pb-3">
         <div className="flex items-start justify-between gap-2">
           <h3 className="text-lg font-semibold text-gray-900 dark:text-white leading-snug">{medicine.name}</h3>
-          <span className={`shrink-0 rounded-full px-2.5 py-0.5 text-xs font-medium ${medicine.in_stock ? "bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400" : "bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400"}`}>{medicine.in_stock ? "In Stock" : "Out"}</span>
+          <span className={`shrink-0 rounded-full px-2.5 py-0.5 text-xs font-semibold ${medicine.in_stock ? "bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-400" : "bg-red-100 dark:bg-red-900/40 text-red-700 dark:text-red-400"}`}>
+            {medicine.in_stock ? "In Stock" : "Out"}
+          </span>
         </div>
         <p className="mt-2 text-sm text-gray-500 dark:text-gray-400 line-clamp-2">{medicine.purpose}</p>
         <div className="mt-3 flex items-center justify-between">
           <span className="text-xl font-bold text-navy-500">₹{Number(medicine.price).toFixed(2)}</span>
-          <span className="text-xs bg-gray-100 dark:bg-navy-800 text-gray-600 dark:text-gray-400 rounded-full px-2 py-0.5">{medicine.category_name}</span>
+          <span className="text-xs bg-gray-100 dark:bg-navy-800 text-gray-600 dark:text-gray-300 rounded-full px-2 py-0.5 font-medium">{medicine.category_name}</span>
         </div>
         <div className="mt-2 flex items-center gap-2 text-xs text-gray-400 dark:text-gray-500"><span className="capitalize">{medicine.age_group}</span></div>
       </Link>
-      <div className="flex border-t border-gray-50 dark:border-navy-800">
+      <div className="flex border-t border-gray-100 dark:border-navy-800">
         <button onClick={(e) => { e.preventDefault(); toggleWishlist(medicine); }} className={`flex-1 py-2.5 text-sm font-medium transition ${liked ? "text-red-500 bg-red-50 dark:bg-red-900/20" : "text-gray-500 dark:text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20"}`}>{liked ? "❤️" : "🤍"}</button>
-        <button onClick={(e) => { e.preventDefault(); if (medicine.in_stock) addToCart(medicine, 1); }} disabled={!medicine.in_stock} className="flex-1 py-2.5 text-sm font-medium text-navy-500 hover:bg-blue-50 dark:hover:bg-navy-800/50 transition disabled:opacity-40 disabled:cursor-not-allowed">🛒 Add</button>
+        <button onClick={(e) => { e.preventDefault(); if (medicine.in_stock) addToCart(medicine, 1); }} disabled={!medicine.in_stock} className="flex-1 py-2.5 text-sm font-semibold text-navy-500 hover:bg-navy-50 dark:hover:bg-navy-800/50 transition disabled:opacity-40 disabled:cursor-not-allowed rounded-br-2xl">🛒 Add</button>
       </div>
     </div>
   );
