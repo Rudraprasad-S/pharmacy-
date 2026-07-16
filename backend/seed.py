@@ -16,11 +16,23 @@ from app.models.user import User
 
 
 def seed():
-    """Drop all tables, recreate, and insert sample data."""
+    """Drop all tables, recreate, and insert sample data + admin user."""
     Base.metadata.drop_all(bind=engine)
     Base.metadata.create_all(bind=engine)
 
     db = SessionLocal()
+
+    # ── Default admin account ──────────────────────────────────────────────
+    from app.models.user import User
+    from app.routers.auth import hash_password
+
+    admin = User(
+        email="admin@riyaz.com",
+        name="Admin",
+        hashed_password=hash_password("admin123"),
+        role="admin",
+    )
+    db.add(admin)
 
     # ── Categories (12 total) ─────────────────────────────────────────────
     categories_data = [

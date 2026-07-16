@@ -1,4 +1,4 @@
-"""Auth router — register, login, and get-current-user endpoints."""
+"""Auth router — register, login, get-current-user, role-based access."""
 import os
 from datetime import datetime, timedelta, timezone
 
@@ -33,20 +33,20 @@ def verify_password(plain: str, hashed: str) -> bool:
     return pwd_context.verify(plain, hashed)
 
 
-def create_token(user_id: int) -> str:
+def create_token(user_id: int, role: str) -> str:
     payload = {
         "sub": str(user_id),
+        "role": role,
         "iat": datetime.now(timezone.utc),
         "exp": datetime.now(timezone.utc) + timedelta(minutes=JWT_EXPIRE_MINUTES),
     }
     return jwt.encode(payload, JWT_SECRET, algorithm=JWT_ALGORITHM)
 
 
-def decode_token(token: str) -> int | None:
+def decode_token(token: str) -> dict | None:
     try:
-        payload = jwt.decode(token, JWT_SECRET, algorithms=[JWT_ALGORITHM])
-        return int(payload["sub"])
-    except (jwt.ExpiredSignatureError, jwt.InvalidTokenError, KeyError, ValueError):
+        return jwt.decode(token, JWT_SECRET, algorithms=[JWT_ALGORITHM])
+    except (jwt.ExpiredSignatureError, jwt.InvalidTokenError):
         return None
 
 
@@ -57,13 +57,20 @@ def get_current_user(
     if not authorization or not authorization.startswith("Bearer "):
         raise HTTPException(status_code=401, detail="Not authenticated")
     token = authorization.split(" ", 1)[1]
-    user_id = decode_token(token)
-    if user_id is None:
+    payload = decode_token(token)
+    if payload is None:
         raise HTTPException(status_code=401, detail="Invalid or expired token")
+    user_id = int(payload.get("sub", 0))
     user = db.query(User).filter(User.id == user_id).first()
     if not user:
         raise HTTPException(status_code=401, detail="User not found")
     return user
+
+
+def require_admin(current_user: User = Depends(get_current_user)) -> User:
+    if current_user.role != "admin":
+        raise HTTPException(status_code=403, detail="Admin access required")
+    return current_user
 
 
 # ── Endpoints ──────────────────────────────────────────────────────────────
@@ -78,15 +85,16 @@ def register(payload: RegisterRequest, db: Session = Depends(get_db)):
         email=payload.email,
         name=payload.name,
         hashed_password=hash_password(payload.password),
+        role="user",
     )
     db.add(user)
     db.commit()
     db.refresh(user)
 
-    token = create_token(user.id)
+    token = create_token(user.id, user.role)
     return TokenResponse(
         access_token=token,
-        user=UserOut(id=user.id, email=user.email, name=user.name),
+        user=UserOut(id=user.id, email=user.email, name=user.name, role=user.role),
     )
 
 
@@ -96,13 +104,18 @@ def login(payload: LoginRequest, db: Session = Depends(get_db)):
     if not user or not verify_password(payload.password, user.hashed_password):
         raise HTTPException(status_code=401, detail="Invalid email or password")
 
-    token = create_token(user.id)
+    token = create_token(user.id, user.role)
     return TokenResponse(
         access_token=token,
-        user=UserOut(id=user.id, email=user.email, name=user.name),
+        user=UserOut(id=user.id, email=user.email, name=user.name, role=user.role),
     )
 
 
 @router.get("/me", response_model=UserOut)
 def get_me(current_user: User = Depends(get_current_user)):
-    return UserOut(id=current_user.id, email=current_user.email, name=current_user.name)
+    return UserOut(
+        id=current_user.id,
+        email=current_user.email,
+        name=current_user.name,
+        role=current_user.role,
+    )

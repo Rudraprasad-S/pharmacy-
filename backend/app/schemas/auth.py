@@ -17,6 +17,7 @@ class UserOut(BaseModel):
     id: int
     email: str
     name: str
+    role: str = "user"
 
 
 class TokenResponse(BaseModel):
