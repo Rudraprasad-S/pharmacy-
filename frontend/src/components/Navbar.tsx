@@ -1,11 +1,13 @@
 import { Link, useLocation } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import { useWishlist } from "../context/WishlistContext";
+import { useAuth } from "../context/AuthContext";
 import { useState, useEffect, useCallback } from "react";
 
 export default function Navbar() {
   const { totalItems } = useCart();
   const { items: wishItems } = useWishlist();
+  const { user, logout, isAuthenticated } = useAuth();
   const location = useLocation();
 
   // Dark mode
@@ -62,8 +64,38 @@ export default function Navbar() {
           </nav>
         </div>
 
-        {/* Right: Cart, dark mode */}
-        <div className="flex items-center gap-3">
+        {/* Right: Auth, Cart, Dark mode */}
+        <div className="flex items-center gap-2">
+          {/* Auth */}
+          {isAuthenticated && user ? (
+            <div className="flex items-center gap-2">
+              <span className="hidden sm:inline text-sm text-gray-600 dark:text-gray-400 font-medium">
+                👤 {user.name.split(" ")[0]}
+              </span>
+              <button
+                onClick={logout}
+                className="text-xs text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 px-2 py-1 rounded hover:bg-red-50 dark:hover:bg-red-900/20 transition"
+              >
+                Logout
+              </button>
+            </div>
+          ) : (
+            <div className="flex items-center gap-1">
+              <Link
+                to="/login"
+                className="text-sm text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-2 py-1 transition"
+              >
+                Sign In
+              </Link>
+              <Link
+                to="/register"
+                className="text-sm bg-blue-600 text-white px-3 py-1 rounded-lg hover:bg-blue-700 transition"
+              >
+                Register
+              </Link>
+            </div>
+          )}
+
           {/* Dark mode toggle */}
           <button
             onClick={toggleDark}

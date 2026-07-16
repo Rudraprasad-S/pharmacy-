@@ -2,7 +2,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.routers import medicines, categories, brands, orders, ai
+from app.routers import medicines, categories, brands, orders, ai, auth
 
 app = FastAPI(title="Riyaz Healthcare API", version="1.0.0")
 
@@ -26,6 +26,7 @@ app.include_router(categories.router)
 app.include_router(brands.router)
 app.include_router(orders.router)
 app.include_router(ai.router)
+app.include_router(auth.router)
 
 
 @app.get("/api/health")
