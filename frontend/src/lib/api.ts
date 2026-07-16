@@ -49,6 +49,27 @@ export async function fetchBrands(): Promise<Brand[]> {
   return data;
 }
 
+// ── AI Chat ───────────────────────────────────────────────────────────────
+
+interface AiChatResponse {
+  response: string;
+  medicines: {
+    id: number;
+    name: string;
+    price: number;
+    purpose: string;
+    category_name: string;
+  }[];
+  category: string | null;
+}
+
+export async function aiChat(query: string): Promise<AiChatResponse> {
+  const { data } = await api.get<AiChatResponse>("/api/ai/chat", {
+    params: { query },
+  });
+  return data;
+}
+
 // ── OTP ───────────────────────────────────────────────────────────────────
 
 export async function sendOTP(phone_number: string): Promise<SendOTPResponse> {

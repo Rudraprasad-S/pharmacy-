@@ -1,9 +1,9 @@
-import { Link } from "react-router-dom";
 import { useMedicines } from "../hooks/useMedicines";
 import SearchBar from "../components/SearchBar";
 import FilterPanel from "../components/FilterPanel";
 import MedicineCard from "../components/MedicineCard";
 import Pagination from "../components/Pagination";
+import Navbar from "../components/Navbar";
 
 export default function MedicineList() {
   const {
@@ -26,21 +26,8 @@ export default function MedicineList() {
   } = useMedicines();
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="bg-white border-b border-gray-200 sticky top-0 z-10">
-        <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-          <h1 className="text-2xl font-bold text-gray-900">
-            💊 Pharmacy
-          </h1>
-          <Link
-            to="/orders/track"
-            className="text-sm text-blue-600 hover:text-blue-800 font-medium transition"
-          >
-            📦 Track Orders
-          </Link>
-        </div>
-      </header>
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 transition-colors">
+      <Navbar />
 
       <main className="max-w-7xl mx-auto px-4 py-6">
         {/* Search */}

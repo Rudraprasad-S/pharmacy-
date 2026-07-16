@@ -2,7 +2,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.routers import medicines, categories, brands, orders
+from app.routers import medicines, categories, brands, orders, ai
 
 app = FastAPI(title="Pharmacy API", version="1.0.0")
 
@@ -25,6 +25,7 @@ app.include_router(medicines.router)
 app.include_router(categories.router)
 app.include_router(brands.router)
 app.include_router(orders.router)
+app.include_router(ai.router)
 
 
 @app.get("/api/health")

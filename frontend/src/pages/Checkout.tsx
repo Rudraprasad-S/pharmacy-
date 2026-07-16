@@ -24,6 +24,7 @@ export default function CheckoutPage() {
 
   // OTP state
   const [otpCode, setOtpCode] = useState("");
+  const [demoOtp, setDemoOtp] = useState<string | null>(null);
   const [otpSent, setOtpSent] = useState(false);
   const [otpError, setOtpError] = useState<string | null>(null);
   const [otpVerified, setOtpVerified] = useState(false);
@@ -94,10 +95,10 @@ export default function CheckoutPage() {
       const res = await sendOTP(customerPhone);
       setOtpSent(true);
       setOtpTimer(300);
-      // Demo: extract OTP from message
+      // Demo: extract OTP from message and show in UI
       const match = res.message.match(/\d{6}/);
       if (match) {
-        console.log("Demo OTP:", match[0]);
+        setDemoOtp(match[0]);
       }
     } catch {
       setOtpError("Failed to send OTP. Please try again.");
@@ -304,6 +305,14 @@ export default function CheckoutPage() {
             <p className="text-sm text-gray-500">
               We'll send a 6-digit OTP to <strong>+91{customerPhone}</strong> for verification.
             </p>
+
+            {/* Demo OTP banner */}
+            {demoOtp && (
+              <div className="bg-amber-50 border border-amber-200 rounded-lg p-3 text-center">
+                <p className="text-xs text-amber-600 mb-1">🔧 Demo Mode — OTP is:</p>
+                <p className="text-2xl font-mono font-bold text-amber-800 tracking-[0.3em]">{demoOtp}</p>
+              </div>
+            )}
 
             {!otpSent ? (
               <button
