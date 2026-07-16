@@ -32,7 +32,7 @@ export default function FilterPanel({
       <select
         value={selectedCategory}
         onChange={(e) => onCategoryChange(e.target.value)}
-        className="rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-700 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+        className="rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-3 py-2 text-sm text-gray-700 dark:text-gray-200 focus:border-blue-500 dark:focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:focus:ring-blue-400 transition-colors"
       >
         <option value="">All Categories</option>
         {categories.map((cat) => (
@@ -43,15 +43,15 @@ export default function FilterPanel({
       </select>
 
       {/* Age group filter */}
-      <div className="flex rounded-lg border border-gray-300 overflow-hidden">
+      <div className="flex rounded-lg border border-gray-300 dark:border-gray-600 overflow-hidden">
         {AGE_GROUPS.map((ag) => (
           <button
             key={ag.value}
             onClick={() => onAgeGroupChange(ag.value)}
-            className={`px-3 py-2 text-sm transition ${
+            className={`px-3 py-2 text-sm transition-colors ${
               selectedAgeGroup === ag.value
                 ? "bg-blue-600 text-white"
-                : "bg-white text-gray-600 hover:bg-gray-50"
+                : "bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
             }`}
           >
             {ag.label}
@@ -66,10 +66,10 @@ export default function FilterPanel({
             selectedInStock === true ? undefined : true
           )
         }
-        className={`rounded-lg border px-3 py-2 text-sm transition ${
+        className={`rounded-lg border px-3 py-2 text-sm transition-colors ${
           selectedInStock === true
-            ? "border-green-500 bg-green-50 text-green-700"
-            : "border-gray-300 bg-white text-gray-600 hover:bg-gray-50"
+            ? "border-green-500 dark:border-green-600 bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-400"
+            : "border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
         }`}
       >
         {selectedInStock === true ? "✓ In Stock Only" : "In Stock Only"}
@@ -83,7 +83,7 @@ export default function FilterPanel({
             onAgeGroupChange("");
             onInStockChange(undefined);
           }}
-          className="text-sm text-blue-600 hover:underline"
+          className="text-sm text-blue-600 dark:text-blue-400 hover:underline"
         >
           Clear filters
         </button>

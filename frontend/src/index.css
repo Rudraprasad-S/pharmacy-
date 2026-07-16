@@ -1,3 +1,29 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Dark mode base styles */
+html.dark {
+  background-color: #030712; /* gray-950 */
+}
+html.dark body {
+  background-color: #030712;
+  color: #f9fafb;
+}
+
+/* Light mode default background */
+html {
+  transition: background-color 0.2s ease;
+}
+body {
+  background-color: #f9fafb; /* gray-50 */
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* Ensure dark mode persists on page load */
+@media (prefers-color-scheme: dark) {
+  html:not(.light) body {
+    background-color: #030712;
+    color: #f9fafb;
+  }
+}

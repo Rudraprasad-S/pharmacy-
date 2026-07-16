@@ -45,6 +45,9 @@ export default function Navbar() {
             <Link to="/" className={isActive("/")}>
               Browse
             </Link>
+            <Link to="/ai-chat" className={isActive("/ai-chat")}>
+              🤖 AI
+            </Link>
             <Link to="/orders/track" className={isActive("/orders/track")}>
               📦 Track
             </Link>

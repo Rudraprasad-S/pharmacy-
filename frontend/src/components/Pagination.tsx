@@ -17,7 +17,7 @@ export default function Pagination({ page, totalPages, onPageChange }: Props) {
       <button
         onClick={() => onPageChange(page - 1)}
         disabled={page === 1}
-        className="rounded-lg px-3 py-2 text-sm text-gray-600 hover:bg-gray-100 disabled:opacity-40 disabled:cursor-not-allowed"
+        className="rounded-lg px-3 py-2 text-sm text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
       >
         ← Prev
       </button>
@@ -26,11 +26,11 @@ export default function Pagination({ page, totalPages, onPageChange }: Props) {
         <>
           <button
             onClick={() => onPageChange(1)}
-            className="rounded-lg px-3 py-2 text-sm text-gray-600 hover:bg-gray-100"
+            className="rounded-lg px-3 py-2 text-sm text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
           >
             1
           </button>
-          {start > 2 && <span className="px-2 text-gray-400">...</span>}
+          {start > 2 && <span className="px-2 text-gray-400 dark:text-gray-600">...</span>}
         </>
       )}
 
@@ -38,10 +38,10 @@ export default function Pagination({ page, totalPages, onPageChange }: Props) {
         <button
           key={p}
           onClick={() => onPageChange(p)}
-          className={`rounded-lg px-3 py-2 text-sm font-medium transition ${
+          className={`rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
             p === page
               ? "bg-blue-600 text-white"
-              : "text-gray-600 hover:bg-gray-100"
+              : "text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
           }`}
         >
           {p}
@@ -50,10 +50,10 @@ export default function Pagination({ page, totalPages, onPageChange }: Props) {
 
       {end < totalPages && (
         <>
-          {end < totalPages - 1 && <span className="px-2 text-gray-400">...</span>}
+          {end < totalPages - 1 && <span className="px-2 text-gray-400 dark:text-gray-600">...</span>}
           <button
             onClick={() => onPageChange(totalPages)}
-            className="rounded-lg px-3 py-2 text-sm text-gray-600 hover:bg-gray-100"
+            className="rounded-lg px-3 py-2 text-sm text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
           >
             {totalPages}
           </button>
@@ -63,7 +63,7 @@ export default function Pagination({ page, totalPages, onPageChange }: Props) {
       <button
         onClick={() => onPageChange(page + 1)}
         disabled={page === totalPages}
-        className="rounded-lg px-3 py-2 text-sm text-gray-600 hover:bg-gray-100 disabled:opacity-40 disabled:cursor-not-allowed"
+        className="rounded-lg px-3 py-2 text-sm text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
       >
         Next →
       </button>
