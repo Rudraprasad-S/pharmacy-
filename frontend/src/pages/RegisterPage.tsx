@@ -2,6 +2,9 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
+const inputClass =
+  "w-full border border-gray-300 dark:border-gray-500 bg-white dark:bg-gray-800 rounded-lg px-3 py-2.5 text-sm text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors";
+
 export default function RegisterPage() {
   const { register } = useAuth();
   const navigate = useNavigate();
@@ -27,12 +30,10 @@ export default function RegisterPage() {
       await register(email, name, password);
       navigate("/");
     } catch (err: any) {
-      let msg = "Registration failed. Please try again.";
-      if (err?.response?.data?.detail) {
-        msg = err.response.data.detail;
-      } else if (err?.message) {
-        msg = err.message;
-      }
+      const msg =
+        err?.response?.data?.detail ||
+        err?.message ||
+        "Registration failed. Please try again.";
       setError(msg);
     } finally {
       setLoading(false);
@@ -68,7 +69,7 @@ export default function RegisterPage() {
               placeholder="John Doe"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+              className={inputClass}
             />
           </div>
 
@@ -82,7 +83,7 @@ export default function RegisterPage() {
               placeholder="you@example.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+              className={inputClass}
             />
           </div>
 
@@ -96,7 +97,7 @@ export default function RegisterPage() {
               placeholder="Min. 6 characters"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+              className={inputClass}
             />
           </div>
 

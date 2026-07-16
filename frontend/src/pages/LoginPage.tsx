@@ -2,6 +2,9 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
+const inputClass =
+  "w-full border border-gray-300 dark:border-gray-500 bg-white dark:bg-gray-800 rounded-lg px-3 py-2.5 text-sm text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors";
+
 export default function LoginPage() {
   const { login } = useAuth();
   const navigate = useNavigate();
@@ -18,12 +21,10 @@ export default function LoginPage() {
       await login(email, password);
       navigate("/");
     } catch (err: any) {
-      let msg = "Login failed. Check your credentials.";
-      if (err?.response?.data?.detail) {
-        msg = err.response.data.detail;
-      } else if (err?.message) {
-        msg = err.message;
-      }
+      const msg =
+        err?.response?.data?.detail ||
+        err?.message ||
+        "Login failed. Check your credentials.";
       setError(msg);
     } finally {
       setLoading(false);
@@ -59,7 +60,7 @@ export default function LoginPage() {
               placeholder="you@example.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+              className={inputClass}
             />
           </div>
 
@@ -73,7 +74,7 @@ export default function LoginPage() {
               placeholder="••••••"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+              className={inputClass}
             />
           </div>
 

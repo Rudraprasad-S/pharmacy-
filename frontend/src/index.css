@@ -2,25 +2,33 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Dark mode base styles */
+/* Dark mode base */
 html.dark {
-  background-color: #030712; /* gray-950 */
+  background-color: #030712;
+  color-scheme: dark;
 }
 html.dark body {
   background-color: #030712;
   color: #f9fafb;
 }
-
-/* Light mode default background */
 html {
+  color-scheme: light;
   transition: background-color 0.2s ease;
 }
 body {
-  background-color: #f9fafb; /* gray-50 */
+  background-color: #f9fafb;
   transition: background-color 0.2s ease, color 0.2s ease;
 }
 
-/* Ensure dark mode persists on page load */
+/* Fix browser autofill in dark mode — white text on gray bg */
+html.dark input:-webkit-autofill,
+html.dark input:-webkit-autofill:hover,
+html.dark input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 30px #1f2937 inset !important;
+  -webkit-text-fill-color: #f1f5f9 !important;
+  caret-color: #f1f5f9;
+}
+
 @media (prefers-color-scheme: dark) {
   html:not(.light) body {
     background-color: #030712;
