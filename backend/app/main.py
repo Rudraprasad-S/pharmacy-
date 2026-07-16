@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.routers import medicines, categories, brands, orders, ai
 
-app = FastAPI(title="Pharmacy API", version="1.0.0")
+app = FastAPI(title="Riyaz Healthcare API", version="1.0.0")
 
 # Allow all Vite dev server ports to call the API
 app.add_middleware(

@@ -39,7 +39,7 @@ export default function Navbar() {
             to="/"
             className="text-2xl font-bold text-gray-900 dark:text-white hover:opacity-80 transition"
           >
-            💊 Pharmacy
+            💊 Riyaz Healthcare
           </Link>
           <nav className="hidden sm:flex items-center gap-4 text-sm">
             <Link to="/" className={isActive("/")}>
